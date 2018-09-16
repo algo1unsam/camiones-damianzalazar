@@ -1,6 +1,10 @@
+import almacenes.*
+import mercaderias.*
+import transportes.*
 
 test "" {
-
-	assert.that(true)
-
+	camion.cargar(bumblebee)
+	deposito.recibe(knightRider)
+	deposito.recibeMultiple(camion.contenido())
+	//assert.notThat(deposito.cargarCamion())
 }
