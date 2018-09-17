@@ -21,5 +21,5 @@ object camion {
 	method cargaDisponible() = pesoMax - self.peso() 
 	method puedeCargar(mercaderia) = (pesoMax > self.peso() + mercaderia.peso())
 	method masPeligro() = contenido.max { mercaderia => mercaderia.nivelPeligro() }
-	//method puedeCircular(ruta) = contenido.any {mercaderia => mercaderia.nivelpeligro() < ruta.limitePeligro()}
+	method puedeCircular(ruta) = !(contenido.any { mercaderia => (mercaderia.nivelPeligro() > ruta.limitePeligro()) })
 }
