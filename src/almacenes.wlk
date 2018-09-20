@@ -12,5 +12,4 @@ object deposito {
 							contenido.remove(mercaderia)
 		}
 	}
-	method cantidad() = contenido.size()
 }

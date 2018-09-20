@@ -20,21 +20,18 @@ object ladrillos {
 }
 
 object contenedor {
-	var property contenido = []
+	var property contenido = [knightRider]
 	
 	method recibe(mercaderia) { contenido.add(mercaderia) }
-	method peso() {
-		if (contenido.isEmpty())
-			return 100
-		else 
-			return 100 + contenido.sum { mercaderia => mercaderia.peso() }
-	}
-	method nivelPeligro() { 
+	method peso() = if (contenido.isEmpty()) 100 else 100 + contenido.sum { mercaderia => mercaderia.peso() }
+	
+	method nivelPeligro() {
 		if(contenido.isEmpty()) 
 			return 0 
 		else 
-			return contenido.max { mercaderia => mercaderia.nivelPeligro() }
+			return (contenido.max { mercaderia => mercaderia.nivelPeligro() }).nivelPeligro()
 	}
+
 	
 }
 object embalaje {

@@ -34,7 +34,7 @@ test "Deposito puede recibir mercaderia de la motoneta" {
 	ladrillos.cantidad(5)
 	motoneta.cargar(ladrillos)
 	deposito.recibeMultiple(motoneta.contenido())
-	assert.equals(1, deposito.cantidad())
+	assert.equals(1, deposito.contenido().size())
 }
 
 }

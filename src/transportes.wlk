@@ -13,7 +13,7 @@ object camion {
 		contenido.add(mercaderia)	
 	}
 	method descargar(mercaderia) = contenido.remove(mercaderia)
-	method tieneCargado(mercaderia) = contenido.any(mercaderia)
+	method tieneCargado(mercaderia) = contenido.any { x => x == mercaderia}
 	method peso() = contenido.sum { mercaderia => mercaderia.peso() }
 	method cargaDisponible() = pesoMax - self.peso()
 	method superaPeso(mercaderia) = (self.peso() + mercaderia.peso() > pesoMax)
