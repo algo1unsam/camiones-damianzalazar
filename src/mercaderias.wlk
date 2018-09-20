@@ -1,5 +1,6 @@
 import transportes.*
 import almacenes.*
+import rutas.*
 
 object knightRider {
 	method peso() = 500
@@ -22,16 +23,26 @@ object contenedor {
 	var property contenido = []
 	
 	method recibe(mercaderia) { contenido.add(mercaderia) }
-	method peso() = 100 + contenido.sum { mercaderia => mercaderia.peso() }
-	method nivelPeligro() = contenido.max { mercaderia => mercaderia.nivelPeligro() }
-}
-
-object embalaje {
-	var property contenido = []
+	method peso() {
+		if (contenido.isEmpty())
+			return 100
+		else 
+			return 100 + contenido.sum { mercaderia => mercaderia.peso() }
+	}
+	method nivelPeligro() { 
+		if(contenido.isEmpty()) 
+			return 0 
+		else 
+			return contenido.max { mercaderia => mercaderia.nivelPeligro() }
+	}
 	
-	method recibe(mercaderia) { contenido.add(mercaderia) }
-	method peso() = contenido.sum { mercaderia => mercaderia.peso() }
-	method nivelPeligro() = (contenido.max { mercaderia => mercaderia.nivelPeligro() }) / 2
+}
+object embalaje {
+	var property contenido
+	
+	method embalo(mercaderia) { contenido = mercaderia }
+	method peso() =  contenido.peso()
+	method nivelPeligro() = contenido.nivelPeligro() / 2
 }
 
 //********** CARACTERISTICAS BUMBLEBEE **********//

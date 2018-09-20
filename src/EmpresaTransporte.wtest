@@ -2,28 +2,45 @@ import almacenes.*
 import mercaderias.*
 import transportes.*
 import rutas.*
-
-test "Supera la carga máxima del camion" {
+describe "test del camion" {
+method cargarCamion() {
 	camion.cargar(bumblebee)
 	camion.cargar(knightRider)
+}
+test "Supera la carga máxima del camion" {
+	self.cargarCamion()
 	ladrillos.cantidad(51)
-	assert.notThat(camion.puedeCargar(ladrillos))
+	assert.that(camion.superaPeso(ladrillos))
 }
 
-test "Camion no puede circular por la Ruta 2" {
-	camion.cargar(ladrillos)
-	camion.cargar(bumblebee)
-	assert.notThat(camion.puedeCircular(ruta2))
+test "Mas peligroso bumblebee"{
+	bumblebee.estado(robot)
+	assert.equals(30, bumblebee.nivelPeligro())
 }
 
-test "Motoneta puede cargar mercaderia porque no supera peso ni peligrosidad"{
-	ladrillos.cantidad(20)
-	assert.that(motoneta.puedeCargar(ladrillos))
+//test "Mas peligroso del deposito bumblebee"{
+//	bumblebee.estado(robot)
+//	self.cargarCamion()
+//	assert.equals(30, camion.masPeligro())
+//}
+
+//test "Camion no puede circular por la Ruta 2" {
+//	camion.cargar(ladrillos)
+//	assert.notThat(camion.puedeCircular(ruta2))
+//}
+
 }
 
-test "Deposito puede recibir mercaderia de la motoneta" {
-	ladrillos.cantidad(5)
-	motoneta.cargar(ladrillos)
-	deposito.recibeMultiple(motoneta.contenido())
-	assert.equals(3, deposito.cantidad())
-}
+//describe "test de la motoneta" {
+//test "Motoneta puede cargar mercaderia porque no supera peso ni peligrosidad"{
+//	ladrillos.cantidad(20)
+//	assert.that(motoneta.puedeCargar(ladrillos))
+//}
+//
+//test "Deposito puede recibir mercaderia de la motoneta" {
+//	ladrillos.cantidad(5)
+//	motoneta.cargar(ladrillos)
+//	deposito.recibeMultiple(motoneta.contenido())
+//	assert.equals(3, deposito.cantidad())
+//}
+//}

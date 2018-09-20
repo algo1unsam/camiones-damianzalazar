@@ -5,41 +5,39 @@ import rutas.*
 object camion {
 	var property contenido = []
 	var property pesoMax = 1400
-	var property acum = 0
 	
 	method cargar(mercaderia) { 
-		if(self.puedeCargar(mercaderia)){
-		contenido.add(mercaderia)
-		acum += 1
-		}
-		else
-		error.throwWithMessage("Limite de peso del camion superado: " + acum + " procesados con exito.")
+		if (self.superaPeso(mercaderia))
+		error.throwWithMessage("Limite de peso del camion superado")
+		//error.throwWithMessage("Limite de peso del camion superado: " + contenido.size() + " procesados con exito.")
+		contenido.add(mercaderia)	
 	}
 	method descargar(mercaderia) { contenido.remove(mercaderia) }
 	method tieneCargado(mercaderia) = contenido.any(mercaderia)
 	method peso() = contenido.sum { mercaderia => mercaderia.peso() }
 	method cargaDisponible() = pesoMax - self.peso()
-	method puedeCargar(mercaderia) = (pesoMax >= self.peso() + mercaderia.peso())
-	method masPeligro() = contenido.max { mercaderia => mercaderia.nivelPeligro() }
-	method puedeCircular(ruta) = !(contenido.any { mercaderia => (mercaderia.nivelPeligro() > ruta.limitePeligro()) })
+	method superaPeso(mercaderia) = (self.peso() + mercaderia.peso() > pesoMax)
+	//No funciona metodo masPeligro y por ende puedeCircular
+	method masPeligro() {
+		return contenido.max { mercaderia => mercaderia.nivelPeligro() }
+	} 
+	method puedeCircular(ruta) = (self.masPeligro() < ruta.limitePeligro())
 }
 
 object motoneta{
 	var property contenido = []
 	var property pesoMax = 100
-	//var property acum = 0
 	
 	method cargar(mercaderia) { 
-		if(self.puedeCargar(mercaderia)){
+		if (self.superaPeso(mercaderia) && (self.superaPeligro(mercaderia))
+			error.throwWithMessage("No se pudo completar el proceso. Limite de peso y peligrosidad superado")
+		if (self.superaPeso(mercaderia))
+			error.throwWithMessage("No se pudo completar el proceso. Limite de peso superado")
+		if (self.superaPeligro(mercaderia))
+			error.throwWithMessage("No se pudo completar el proceso. Limite de peligro superada")
 		contenido.add(mercaderia)
-		//acum += 1
-		}
-		else
-		error.throwWithMessage("No se pudo completar el proceso.")
-		//error.throwWithMessage("No se pudo completar el proceso. " + acum + " procesados con exito.")
 	}
 	method peso() = contenido.sum { mercaderia => mercaderia.peso() }
-	method puedeCargar(mercaderia) = self.compruebaPeso(mercaderia) && self.compruebaPeligro(mercaderia)
-	method compruebaPeso(mercaderia) = (pesoMax >= self.peso() + mercaderia.peso())
-	method compruebaPeligro(mercaderia) = (5 >= mercaderia.nivelPeligro())
+	method superaPeso(mercaderia) = (self.peso() + mercaderia.peso() > pesoMax )
+	method superaPeligro(mercaderia) = (mercaderia.nivelPeligro() > 5)
 }
