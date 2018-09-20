@@ -4,24 +4,21 @@ import rutas.*
 
 object camion {
 	var property contenido = []
-	var property pesoMax = 1400
-	
+	var property pesoMax = 1400	
+
 	method cargar(mercaderia) { 
 		if (self.superaPeso(mercaderia))
-		error.throwWithMessage("Limite de peso del camion superado")
 		//error.throwWithMessage("Limite de peso del camion superado: " + contenido.size() + " procesados con exito.")
+		error.throwWithMessage("Limite de peso del camion superado")
 		contenido.add(mercaderia)	
 	}
-	method descargar(mercaderia) { contenido.remove(mercaderia) }
+	method descargar(mercaderia) = contenido.remove(mercaderia)
 	method tieneCargado(mercaderia) = contenido.any(mercaderia)
 	method peso() = contenido.sum { mercaderia => mercaderia.peso() }
 	method cargaDisponible() = pesoMax - self.peso()
 	method superaPeso(mercaderia) = (self.peso() + mercaderia.peso() > pesoMax)
-	//No funciona metodo masPeligro y por ende puedeCircular
-	method masPeligro() {
-		return contenido.max { mercaderia => mercaderia.nivelPeligro() }
-	} 
-	method puedeCircular(ruta) = (self.masPeligro() < ruta.limitePeligro())
+	method maxPeligro() = (contenido.max { mercaderia => mercaderia.nivelPeligro() }).nivelPeligro()
+	method puedeCircular(ruta) = (self.maxPeligro() < ruta.limitePeligro())
 }
 
 object motoneta{
