@@ -20,9 +20,12 @@ object ladrillos {
 }
 
 object contenedor {
+	// TODO ok, pero ojo que acá estas poniendo si o si como default esta carga eh?
 	var property contenido = [knightRider]
 	
 	method recibe(mercaderia) { contenido.add(mercaderia) }
+	// TODO si está vacío es 0
+	// y el 100 sería deseable que esté en una constante así que no queda por acá un número suelto
 	method peso() = if (contenido.isEmpty()) 100 else 100 + contenido.sum { mercaderia => mercaderia.peso() }
 	
 	method nivelPeligro() {

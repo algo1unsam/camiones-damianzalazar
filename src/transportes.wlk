@@ -7,6 +7,7 @@ object camion {
 	var property pesoMax = 1400	
 
 	method cargar(mercaderia) { 
+		// TODO ok pero recomiento en este caso las llaves porque sino es complicado de entender
 		if (self.superaPeso(mercaderia))
 		//error.throwWithMessage("Limite de peso del camion superado: " + contenido.size() + " procesados con exito.")
 		error.throwWithMessage("Limite de peso del camion superado")
@@ -16,6 +17,7 @@ object camion {
 	method tieneCargado(mercaderia) = contenido.any { x => x == mercaderia}
 	method peso() = contenido.sum { mercaderia => mercaderia.peso() }
 	method cargaDisponible() = pesoMax - self.peso()
+	// TODO creo que escrito así, los () no hacen falta 
 	method superaPeso(mercaderia) = (self.peso() + mercaderia.peso() > pesoMax)
 	method maxPeligro() = (contenido.max { mercaderia => mercaderia.nivelPeligro() }).nivelPeligro()
 	method puedeCircular(ruta) = (self.maxPeligro() < ruta.limitePeligro())
